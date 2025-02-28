@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>消息中心 - 溶劑染料貿易商</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="menu-toggle">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="about.html">關於我們</a></li>
+      <li><a href="products.html">產品</a></li>
+      <li><a href="services.html">服務</a></li>
+      <li><a href="applications.html">應用案例</a></li>
+      <li><a href="contact.html">聯繫我們</a></li>
+      <li><a href="faq.html">常見問題</a></li>
+      <li><a href="blog.html">消息中心</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      <a href="blog.html?lang=zh-TW">中文</a> |
+      <a href="blog_en.html?lang=en">English</a>
+    </div>
+    <section id="blog">
+      <h2>消息中心</h2>
+      <div class="blog-posts-container">
+        <div id="blog-posts">
+          <!-- Blog posts will be loaded here -->
+        </div>
+      </div>
+
+      <div class="blog-pagination">
+        <a href="#" id="prev-page">上一頁</a>
+        <div id="page-numbers">
+          <!-- Page numbers will be generated here -->
+        </div>
+        <a href="#" id="next-page">下一頁</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
+  </footer>
+  <script>
+    const blogPosts = [
+      {
+        date: '2024-07-15',
+        title: '溶劑染料在塑膠著色中的應用：提高產品吸引力',
+        excerpt: '探索溶劑染料如何提升塑膠產品的色彩鮮豔度和吸引力。',
+        keywords: '溶劑染料, 塑膠著色, 產品吸引力',
+        url: 'blog-post-1.html'
+      },
+      {
+        date: '2024-08-10',
+        title: '溶劑染料的選擇指南：為您的應用選擇最佳染料',
+        excerpt: '為各種應用選擇合適溶劑染料的實用指南。',
+        keywords: '溶劑染料, 染料選擇, 應用指南',
+        url: 'blog-post-2.html'
+      },
+      {
+        date: '2024-09-01',
+        title: '溶劑染料的最新技術進展：環保與高性能',
+        excerpt: '介紹溶劑染料在環保和性能方面的最新技術進展。',
+        keywords: '溶劑染料, 技術進展, 環保染料',
+        url: 'blog-post-3.html'
+      },
+      {
+        date: '2024-10-01',
+        title: '溶劑染料的耐光性和耐熱性：如何確保產品長期穩定',
+        excerpt: '探討溶劑染料的耐光性和耐熱性測試及其對產品穩定性的影響。',
+        keywords: '溶劑染料, 耐光性, 耐熱性',
+        url: 'blog-post-5.html'
+      },
+      {
+        date: '2024-11-01',
+        title: '溶劑染料的市場趨勢分析：未來發展方向',
+        excerpt: '分析溶劑染料的當前市場趨勢和未來發展方向。',
+        keywords: '溶劑染料, 市場趨勢, 染料市場',
+        url: 'blog-post-7.html'
+      },
+      {
+        date: '2024-11-15',
+        title: '溶劑染料的創新應用：從紡織品到高科技產業',
+        excerpt: '探索溶劑染料在紡織品和高科技產業中的創新應用。',
+        keywords: '溶劑染料, 紡織品, 高科技產業',
+        url: 'blog-post-8.html'
+      },
+      {
+        date: '2024-12-01',
+        title: '溶劑染料的顏色科學：如何實現精確的色彩匹配',
+        excerpt: '深入了解溶劑染料的顏色科學，以及如何實現精確的色彩匹配。',
+        keywords: '溶劑染料, 顏色科學, 色彩匹配',
+        url: 'blog-post-9.html'
+      },
+      {
+        date: '2024-12-15',
+        title: '溶劑染料的供應鏈管理：確保高品質和可靠性',
+        excerpt: '探討溶劑染料供應鏈管理的關鍵要素，以確保高品質和可靠性。',
+        keywords: '溶劑染料, 供應鏈管理, 品質保證',
+        url: 'blog-post-10.html'
+      },
+      {
+        date: '2025-01-01',
+        title: '溶劑染料的法規與標準：確保合規性',
+        excerpt: '概述溶劑染料相關的法規和標準，以確保合規性。',
+        keywords: '溶劑染料, 法規, 標準',
+        url: 'blog-post-11.html'
+      },
+      {
+        date: '2025-01-15',
+        title: '溶劑染料的未來展望：新鄰近技術和應用',
+        excerpt: '展望溶劑染料的未來，包括新興技術和應用。',
+        keywords: '溶劑染料, 未來展望, 新興技術',
+        url: 'blog-post-12.html'
+      },
+    ];
+    const postsPerPage = 4;
+    let currentPage = 1;
+
+    function displayPosts(page) {
+      const blogPostsContainer = document.getElementById('blog-posts');
+      blogPostsContainer.innerHTML = '';
+
+      const startIndex = (page - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      const currentPosts = blogPosts.slice(startIndex, endIndex);
+
+      currentPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('blog-post-item');
+        postElement.innerHTML = `
+          <div class="blog-post-date">${post.date}</div>
+          <div class="blog-post-title">${post.title}</div>
+          <div class="blog-post-excerpt">${post.excerpt}</div>
+          <a href="${post.url}" class="blog-read-more">閱讀更多</a>
+          <meta name="keywords" content="${post.keywords}">
+        `;
+        blogPostsContainer.appendChild(postElement);
+      });
+    }
+
+    function setupPagination() {
+      const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+      const pageNumbersContainer = document.getElementById('page-numbers');
+      pageNumbersContainer.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const pageNumber = document.createElement('a');
+        pageNumber.href = '#';
+        pageNumber.textContent = i;
+        if (i === currentPage) {
+          pageNumber.classList.add('current-page');
+        }
+        pageNumber.addEventListener('click', function (event) {
+          event.preventDefault();
+          currentPage = i;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        });
+        pageNumbersContainer.appendChild(pageNumber);
+      }
+
+      const prevPageLink = document.getElementById('prev-page');
+      const nextPageLink = document.getElementById('next-page');
+
+      prevPageLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        }
+      });
+
+      nextPageLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        }
+      });
+    }
+
+    function updateActivePageNumber() {
+      const pageNumbers = document.querySelectorAll('#page-numbers a');
+      pageNumbers.forEach(pageNumber => {
+        pageNumber.classList.remove('current-page');
+        if (parseInt(pageNumber.textContent) === currentPage) {
+          pageNumber.classList.add('current-page');
+        }
+      });
+    }
+
+    displayPosts(currentPage);
+    setupPagination();
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>聯繫我們 - 溶劑染料貿易商</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="menu-toggle">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">首頁</a></li>
+      <li><a href="about.html">關於我們</a></li>
+      <li><a href="products.html">產品</a></li>
+      <li><a href="services.html">服務</a></li>
+      <li><a href="applications.html">應用案例</a></li>
+      <li><a href="contact.html">聯繫我們</a></li>
+      <li><a href="faq.html">常見問題</a></li>
+      <li><a href="blog.html">消息中心</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      <a href="contact.html?lang=zh-TW">中文</a> |
+      <a href="contact_en.html?lang=en">English</a>
+    </div>
+    <section id="contact">
+      <h2>聯繫我們</h2>
+      <p>如有任何疑問或需求，請隨時與我們聯繫。我們期待與您合作，共同創造更多價值。</p>
+      <form id="contact-form" action="https://formspree.io/f/xblrnwnz" method="POST">
+        <label for="name">姓名：</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="company">公司：</label>
+        <input type="text" id="company" name="company">
+
+        <label for="email">電子郵件：</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="phone">電話：</label>
+        <input type="tel" id="phone" name="phone">
+
+        <label for="message">需求描述：</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+
+        <button type="submit">提交</button>
+      </form>
+      <p>您也可以通過以下方式聯繫我們：</p>
+      <ul>
+        <li><strong>電子郵件：</strong>info@hwashine.tw</li>
+        <li><strong>電話：</strong>0972499922</li>
+        <li><strong>地址：</strong>臺北市信義區信義路5段7號37樓</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
+  </footer>
+  <script src="script.js"></script>
+</body>
+
+</html>

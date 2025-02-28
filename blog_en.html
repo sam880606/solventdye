@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Solvent Dyes for Plastics</title>
+  <meta name="description" content="Explore articles on solvent dyes for plastics applications, including coloring techniques, market trends, and innovative uses.">
+  <meta name="keywords" content="solvent dyes, plastic coloring, plastic dyes, polymer dyes, plastic coloration, dye solutions">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="menu-toggle">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index_en.html">Home</a></li>
+      <li><a href="about_en.html">About Us</a></li>
+      <li><a href="products_en.html">Products</a></li>
+      <li><a href="services_en.html">Services</a></li>
+      <li><a href="applications_en.html">Applications</a></li>
+      <li><a href="contact_en.html">Contact Us</a></li>
+      <li><a href="faq_en.html">FAQ</a></li>
+      <li><a href="blog_en.html">Blog</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      <a href="blog.html?lang=zh-TW">中文</a> |
+      <a href="blog_en.html?lang=en">English</a>
+    </div>
+    <section id="blog">
+      <h2>Blog</h2>
+      <div class="blog-posts-container">
+        <div id="blog-posts">
+          <!-- Blog posts will be loaded here -->
+        </div>
+      </div>
+
+      <div class="blog-pagination">
+        <a href="#" id="prev-page">Previous Page</a>
+        <div id="page-numbers">
+          <!-- Page numbers will be generated here -->
+        </div>
+        <a href="#" id="next-page">Next Page</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
+  </footer>
+  <script>
+    const blogPosts = [
+      {
+        date: '2024-07-15',
+        title: 'Solvent Dyes in Plastic Coloring: Enhancing Product Appeal',
+        excerpt: 'Explore how solvent dyes enhance the color vibrancy and attractiveness of plastic products.',
+        keywords: 'solvent dyes, plastic coloring, product appeal',
+        url: 'blog-post-1_en.html'
+      },
+      {
+        date: '2024-08-10',
+        title: 'Choosing the Right Solvent Dye: A Guide for Optimal Plastic Applications',
+        excerpt: 'Practical guide to selecting suitable solvent dyes for various plastic applications.',
+        keywords: 'solvent dyes, dye selection, plastic applications',
+        url: 'blog-post-2_en.html'
+      },
+      {
+        date: '2024-09-01',
+        title: 'Latest Technological Advancements in Solvent Dyes: Environmental Friendliness and High Performance for Plastics',
+        excerpt: 'An overview of the newest tech advancements in environmentally friendly and high-performance solvent dyes for plastics.',
+        keywords: 'solvent dyes, tech advancements, eco-friendly dyes',
+        url: 'blog-post-3_en.html'
+      },
+      {
+        date: '2024-10-01',
+        title: 'Light and Heat Resistance of Solvent Dyes: Ensuring Long-Term Stability in Plastic Products',
+        excerpt: 'Exploring light and heat resistance testing of solvent dyes and its impact on the stability of plastic products.',
+        keywords: 'solvent dyes, light resistance, heat resistance',
+        url: 'blog-post-5_en.html'
+      },
+      {
+        date: '2024-11-01',
+        title: 'Market Trend Analysis of Solvent Dyes: Future Directions in Plastic Coloring',
+        excerpt: 'Analyzing current market trends and future development directions for solvent dyes used in plastics.',
+        keywords: 'solvent dyes, market trends, dye market',
+        url: 'blog-post-7_en.html'
+      },
+      {
+        date: '2024-11-15',
+        title: 'Innovative Applications of Solvent Dyes: From Everyday Plastics to High-Tech Industries',
+        excerpt: 'Discover innovative applications of solvent dyes in plastics, textiles, and high-tech industries.',
+        keywords: 'solvent dyes, plastic applications, high-tech industries',
+        url: 'blog-post-8_en.html'
+      },
+      {
+        date: '2024-12-01',
+        title: 'The Color Science of Solvent Dyes: Achieving Precise Color Matching in Plastic Products',
+        excerpt: 'In-depth look at the color science behind solvent dyes and how to achieve precise color matching.',
+        keywords: 'solvent dyes, color science, color matching',
+        url: 'blog-post-9_en.html'
+      },
+      {
+        date: '2024-12-15',
+        title: 'Supply Chain Management of Solvent Dyes: Ensuring High Quality and Reliability for Plastic Manufacturers',
+        excerpt: 'Exploring key elements of solvent dye supply chain management to ensure quality and reliability.',
+        keywords: 'solvent dyes, supply chain management, quality assurance',
+        url: 'blog-post-10_en.html'
+      },
+      {
+        date: '2025-01-01',
+        title: 'Regulations and Standards for Solvent Dyes: Ensuring Compliance in Plastics Manufacturing',
+        excerpt: 'Overview of regulations and standards related to solvent dyes to ensure compliance in plastic manufacturing.',
+        keywords: 'solvent dyes, regulations, standards',
+        url: 'blog-post-11_en.html'
+      },
+      {
+        date: '2025-01-15',
+        title: 'Future Outlook for Solvent Dyes: Emerging Technologies and Applications in Plastics',
+        excerpt: 'Looking at the future of solvent dyes, including emerging technologies and applications in plastics.',
+        keywords: 'solvent dyes, future outlook, emerging technologies',
+        url: 'blog-post-12_en.html'
+      },
+    ];
+    const postsPerPage = 4;
+    let currentPage = 1;
+
+    function displayPosts(page) {
+      const blogPostsContainer = document.getElementById('blog-posts');
+      blogPostsContainer.innerHTML = '';
+
+      const startIndex = (page - 1) * postsPerPage;
+      const endIndex = startIndex + postsPerPage;
+      const currentPosts = blogPosts.slice(startIndex, endIndex);
+
+      currentPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('blog-post-item');
+        postElement.innerHTML = `
+          <div class="blog-post-date">${post.date}</div>
+          <div class="blog-post-title">${post.title}</div>
+          <div class="blog-post-excerpt">${post.excerpt}</div>
+          <a href="${post.url}" class="blog-read-more">Read More</a>
+          <meta name="keywords" content="${post.keywords}">
+        `;
+        blogPostsContainer.appendChild(postElement);
+      });
+    }
+
+    function setupPagination() {
+      const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+      const pageNumbersContainer = document.getElementById('page-numbers');
+      pageNumbersContainer.innerHTML = '';
+
+      for (let i = 1; i <= totalPages; i++) {
+        const pageNumber = document.createElement('a');
+        pageNumber.href = '#';
+        pageNumber.textContent = i;
+        if (i === currentPage) {
+          pageNumber.classList.add('current-page');
+        }
+        pageNumber.addEventListener('click', function (event) {
+          event.preventDefault();
+          currentPage = i;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        });
+        pageNumbersContainer.appendChild(pageNumber);
+      }
+
+      const prevPageLink = document.getElementById('prev-page');
+      const nextPageLink = document.getElementById('next-page');
+
+      prevPageLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (currentPage > 1) {
+          currentPage--;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        }
+      });
+
+      nextPageLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayPosts(currentPage);
+          updateActivePageNumber();
+        }
+      });
+    }
+
+    function updateActivePageNumber() {
+      const pageNumbers = document.querySelectorAll('#page-numbers a');
+      pageNumbers.forEach(pageNumber => {
+        pageNumber.classList.remove('current-page');
+        if (parseInt(pageNumber.textContent) === currentPage) {
+          pageNumber.classList.add('current-page');
+        }
+      });
+    }
+
+    displayPosts(currentPage);
+    setupPagination();
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>
