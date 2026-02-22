@@ -5,201 +5,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>產品 - 溶劑染料貿易商</title>
-  <link rel="stylesheet" href="style.css">
   <style>
-    /* General table styles */
-    .product-container {
-      display: flex;
-      width: 100%;
-    }
+    body { font-family: "Noto Sans TC", sans-serif; margin: 0; padding: 0; background-color: #fdfdfd; }
+    .product-container { display: flex; width: 100%; min-height: 80vh; }
+    
+    /* 導覽列簡化樣式 (保留您的結構) */
+    nav { background: #333; color: white; padding: 15px 20px; }
+    .nav-links { list-style: none; padding: 0; margin: 0; display: flex; gap: 15px; flex-wrap: wrap; }
+    .nav-links a { color: white; text-decoration: none; }
+    .nav-links a:hover { color: #5cb85c; }
 
-    .color-filter {
-      width: 200px;
-      padding: 20px;
-      border-right: 1px solid #ddd;
-    }
+    /* 側邊篩選欄 */
+    .color-filter { width: 220px; padding: 25px; border-right: 1px solid #eee; background: #fff; }
+    .color-filter h3 { margin-top: 0; margin-bottom: 15px; font-size: 1.2em; color: #333; }
+    .color-filter ul { list-style: none; padding: 0; }
+    .color-filter li { margin-bottom: 8px; }
+    .color-filter a { text-decoration: none; color: #555; display: block; padding: 10px 15px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
+    .color-filter a:hover { background-color: #f9f9f9; color: #5cb85c; }
+    .color-filter a.active { background-color: #eaf5ea; color: #449d44; border-color: #d0e7d0; font-weight: bold; }
+    #color-select { display: none; width: 100%; padding: 8px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #ccc; }
+    
+    /* 產品顯示區 */
+    .product-display { flex: 1; padding: 30px; }
+    .color-category { width: 100%; margin-bottom: 30px; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); display: none; background: #fff; }
+    .color-category.active { display: block; animation: fadeIn 0.3s ease-in; }
+    
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-    .color-filter h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
-    }
+    .category-title { background-color: #f8f9fa; padding: 15px 20px; text-align: left; font-weight: bold; border-bottom: 1px solid #eee; color: #2c3e50; font-size: 1.2em; }
+    
+    .product-list { display: flex; flex-direction: column; width: 100%; }
+    .product-item { display: flex; padding: 25px 20px; border-bottom: 1px solid #f0f0f0; align-items: flex-start; }
+    .product-item:last-child { border-bottom: none; }
+    
+    /* 產品細節 */
+    .color-box { width: 100px; height: 100px; min-width: 100px; border: 1px solid #ddd; border-radius: 8px; box-shadow: inset 0 0 8px rgba(0,0,0,0.05); }
+    .product-info { margin-left: 25px; flex: 1; }
+    .product-name { font-weight: bold; font-size: 1.15em; color: #2c3e50; margin-bottom: 8px; }
+    .color-description { font-style: italic; color: #666; margin-bottom: 12px; font-size: 0.95em; line-height: 1.4; }
+    .code-tag { display: inline-block; margin-right: 15px; margin-bottom: 5px; }
+    .hex-code { font-family: 'Courier New', monospace; background-color: #fef2f2; padding: 3px 8px; border-radius: 4px; color: #c0392b; font-size: 0.9em; border: 1px solid #fadbd8; }
+    .rgb-value { font-family: 'Courier New', monospace; background-color: #f4faff; padding: 3px 8px; border-radius: 4px; color: #2980b9; font-size: 0.9em; border: 1px solid #d6eaf8; }
+    .additional-notes { font-size: 0.92em; color: #777; margin-top: 12px; line-height: 1.6; border-left: 3px solid #eee; padding-left: 12px; }
+    
+    .inquiry-button { display: inline-block; margin-top: 18px; padding: 10px 25px; background-color: #5cb85c; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.95em; transition: background 0.3s; text-decoration: none; font-weight: 500; }
+    .inquiry-button:hover { background-color: #449d44; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
-    .color-filter ul {
-      list-style: none;
-      padding: 0;
-    }
+    .language-switcher { padding: 15px 30px; text-align: right; background: #fff; border-bottom: 1px solid #eee; font-size: 0.9em; }
+    .language-switcher a { text-decoration: none; color: #666; margin: 0 5px; }
+    .language-switcher a:hover { color: #5cb85c; }
 
-    .color-filter li {
-      padding: 5px 0;
-    }
-
-    .color-filter a {
-      text-decoration: none;
-      color: #333;
-      display: block;
-    }
-
-    .color-filter a:hover {
-      color: #5cb85c;
-    }
-
-    .product-display {
-      flex: 1;
-      padding: 20px;
-    }
-
-    .color-category {
-      width: 100%;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .category-title {
-      background-color: #f0f0f0;
-      padding: 10px 15px;
-      text-align: left;
-      font-weight: bold;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .product-list {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .product-item {
-      display: flex;
-      padding: 10px 15px;
-      border-bottom: 1px solid #eee;
-      align-items: center;
-    }
-
-    .product-item:last-child {
-      border-bottom: none;
-    }
-
-    .product-name {
-      flex: 1;
-      text-align: left;
-    }
-
-    .color-box {
-      width: 80px;
-      height: 120px;
-      margin: 0 5px;
-      border: 1px solid #ccc;
-      display: inline-block;
-    }
-
-    .inquiry-button {
-      padding: 8px 12px;
-      background-color: #5cb85c;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 0.9em;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-    }
-
-    .inquiry-button:hover {
-      background-color: #449d44;
-    }
-
-    /* Responsive adjustments for product items */
-    @media (max-width: 768px) {
-      .product-container {
-        flex-direction: column;
-      }
-
-      .color-filter {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-      }
-
-      .product-display {
-        padding: 10px;
-      }
-
-      .product-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .product-name {
-        margin-bottom: 5px;
-      }
-    }
-
-    /* Hidden by default, shown when active */
-    .color-category {
-      display: none;
-    }
-
-    .color-category.active {
-      display: block;
-    }
-
-    .tint-box {
-      width: 40px;
-      height: 20px;
-      margin: 0 5px;
-      border: 1px solid #ccc;
-      display: inline-block;
-    }
-
-    /* Additional Information Styles */
-    .product-info {
-      margin-left: 20px;
-      /* Space between color box and text info */
-    }
-
-    .color-description {
-      font-style: italic;
-      color: #666;
-      /* Softer color for description */
-      margin-top: 5px;
-    }
-
-    .hex-code {
-      font-family: monospace;
-      /* Monospace font for better readability */
-      background-color: #f7f7f7;
-      /* Light background for contrast */
-      padding: 2px 5px;
-      border-radius: 3px;
-      color: #444;
-    }
-
-    .rgb-value {
-      font-family: monospace;
-      /* Monospace font for better readability */
-      color: #555;
-      margin-top: 3px;
-    }
-
-    .additional-notes {
-      font-size: 0.9em;
-      color: #777;
-      /* Muted color for less important information */
-      margin-top: 10px;
+    @media (max-width: 900px) {
+      .product-container { flex-direction: column; }
+      .color-filter { width: 100%; border-right: none; border-bottom: 1px solid #eee; padding: 15px; box-sizing: border-box; }
+      .color-filter ul { display: none; }
+      #color-select { display: block; }
+      .product-item { flex-direction: column; }
+      .color-box { width: 100%; height: 60px; margin-bottom: 15px; }
+      .product-info { margin-left: 0; }
     }
   </style>
 </head>
 
 <body>
   <nav>
-    <div class="menu-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
     <ul class="nav-links">
       <li><a href="index.html">首頁</a></li>
       <li><a href="about.html">關於我們</a></li>
@@ -213,16 +82,21 @@
   </nav>
 
   <main>
-    <!-- Language Switcher -->
     <div class="language-switcher">
       <a href="products.html?lang=zh-TW">中文</a> |
       <a href="products_en.html?lang=en">English</a>
     </div>
+
     <section id="products">
-      <h2>產品</h2>
+      <div style="padding: 20px 30px 0;">
+        <h2 style="margin: 0; color: #333; font-size: 1.8em;">產品</h2>
+      </div>
+      
       <div class="product-container">
+        <!-- 側邊選單 -->
         <div class="color-filter">
           <h3>顏色分類</h3>
+          <!-- 行動端下拉選單 -->
           <select id="color-select">
             <option value="yellow">黃色 (Y)</option>
             <option value="green">綠色 (G)</option>
@@ -231,8 +105,9 @@
             <option value="violet">紫色 (V)</option>
             <option value="blue">藍色 (B)</option>
           </select>
+          <!-- 桌面端連結 -->
           <ul>
-            <li><a href="#yellow" data-color="yellow">黃色 (Y)</a></li>
+            <li><a href="#yellow" class="active" data-color="yellow">黃色 (Y)</a></li>
             <li><a href="#green" data-color="green">綠色 (G)</a></li>
             <li><a href="#orange" data-color="orange">橙色 (O)</a></li>
             <li><a href="#red" data-color="red">紅色 (R)</a></li>
@@ -242,6 +117,8 @@
         </div>
 
         <div class="product-display">
+          
+          <!-- 黃色 (Y) -->
           <div class="color-category active" id="yellow">
             <div class="category-title">黃色 (Y)</div>
             <div class="product-list">
@@ -250,8 +127,9 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Yellow 33 (S.Y.33)</div>
                   <div class="color-description">檸檬黃（Lemon Yellow），一種明亮的淺黃色，通常帶有輕微綠調。</div>
-                  <div class="hex-code">HEX 碼: 約 #E6E85E</div>
-                  <div class="rgb-value">RGB: (255, 253, 116)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #E6E85E</span></div>
+                  <!-- 已修正 RGB -->
+                  <div class="code-tag"><span class="rgb-value">RGB: (230, 232, 94)</span></div>
                   <div class="additional-notes">說明: 這是一個非常明亮且偏淡的黃色，類似於新鮮檸檬皮的色調，常見於透明染料應用。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -262,8 +140,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Yellow 98 (S.Y.98)</div>
                   <div class="color-description">螢光黃（Fluorescent Yellow），一種鮮艷的黃綠色，具有高度顯眼性，常用於螢光標記。</div>
-                  <div class="hex-code">HEX 碼: 約 #CCFF00</div>
-                  <div class="rgb-value">RGB: (204, 255, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #CCFF00</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (204, 255, 0)</span></div>
                   <div class="additional-notes">說明: 這是一款螢光黃綠色染料，像春天的新芽，帶點黃色的活潑感。它常用在螢光標記或塑料製品中，能吸引目光，但耐光性可能稍微弱一點。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -274,16 +152,16 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Yellow 114 (S.Y.114)</div>
                   <div class="color-description">黃色帶綠調（Yellow with a green cast），屬於喹啉類染料，色澤鮮明但略深於 S.Y.33。</div>
-                  <div class="hex-code">HEX 碼: 約 #E2E062</div>
-                  <div class="rgb-value">RGB: (226, 224, 98)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #E2E062</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (226, 224, 98)</span></div>
                   <div class="additional-notes">說明: 這是一種溫暖的黃色，帶有明顯的綠色 undertone，比典型的純黃色更柔和。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
               </div>
-
             </div>
           </div>
 
+          <!-- 綠色 (G) -->
           <div class="color-category" id="green">
             <div class="category-title">綠色 (G)</div>
             <div class="product-list">
@@ -292,8 +170,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Green 3 (S.G.3)</div>
                   <div class="color-description">深綠色（Deep green）</div>
-                  <div class="hex-code">HEX 碼: 約 #006400</div>
-                  <div class="rgb-value">RGB: (0, 100, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #006400</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (0, 100, 0)</span></div>
                   <div class="additional-notes">說明: 這是個深綠色染料，像森林深處的色調，低調又穩重。它耐熱性和耐化學性都很強，適合工業用途。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -303,15 +181,17 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Green 5 (S.G.5)</div>
                   <div class="color-description">螢光黃綠（Fluorescent yellowish green）</div>
-                  <div class="hex-code">HEX 碼: 約 #ADFF2F</div>
-                  <div class="rgb-value">RGB: (173, 255, 47)</div>
-                  <div class="additional-notes">說明: 這是一款螢光黃綠色染料，像春天的新芽，帶點黃色的活潑感。它常用在螢光標記或塑料製品中，能吸引目光，但耐光性可能稍微弱一點。</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #ADFF2F</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (173, 255, 47)</span></div>
+                  <!-- 已修正重複的說明文字 -->
+                  <div class="additional-notes">說明: 這款染料展現強烈的黃綠色螢光效果。在油品洩漏檢測（檢漏劑）及特殊標示應用中非常受歡迎，在紫外光下有極佳反應。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
               </div>
             </div>
           </div>
 
+          <!-- 橙色 (O) -->
           <div class="color-category" id="orange">
             <div class="category-title">橙色 (O)</div>
             <div class="product-list">
@@ -320,8 +200,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Orange 60 (S.O.60)</div>
                   <div class="color-description">純橙色（Pure orange）</div>
-                  <div class="hex-code">HEX 碼: 約 #FFA500</div>
-                  <div class="rgb-value">RGB: (255, 165, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FFA500</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 165, 0)</span></div>
                   <div class="additional-notes">說明: 這是個純橙色染料，像熟透的橘子，顏色簡單又經典。它在塑料和蠟染色中很常見，穩定性高，適合日常用品的著色。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -331,8 +211,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Orange 63 (S.O.63)</div>
                   <div class="color-description">螢光橙（Fluorescent orange）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF8C00</div>
-                  <div class="rgb-value">RGB: (255, 140, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF8C00</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 140, 0)</span></div>
                   <div class="additional-notes">說明: 這是一種螢光橙色染料，顏色明亮得像交通錐，特別顯眼。它常用在安全設備或螢光塑料中，耐熱性不錯，但長時間暴晒可能會稍微褪色。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -340,6 +220,7 @@
             </div>
           </div>
 
+          <!-- 紅色 (R) -->
           <div class="color-category" id="red">
             <div class="category-title">紅色 (R)</div>
             <div class="product-list">
@@ -348,8 +229,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 52 (S.R.52)</div>
                   <div class="color-description">深紅色（Deep red）</div>
-                  <div class="hex-code">HEX 碼: 約 #A10054</div>
-                  <div class="rgb-value">RGB: (161, 0, 84)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #A10054</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (161, 0, 84)</span></div>
                   <div class="additional-notes">說明: 這是一種深紅色的染料，帶點紫色調，顯得很沉穩又有力。它特別適合染塑料或合成纖維，耐熱性和耐溶劑性都很出色，常見於汽車零件或電子產品的外殼染色。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -359,8 +240,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 111 (S.R.111)</div>
                   <div class="color-description">紅色帶橙調（Red with orange tint）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF4500</div>
-                  <div class="rgb-value">RGB: (255, 69, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF4500</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 69, 0)</span></div>
                   <div class="additional-notes">說明: 這款紅色帶點橙調，像是夕陽的餘暉，溫暖又柔和。它在石油產品或塑料染色中很常見，穩定性好，適合需要醒目效果的場合。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -370,8 +251,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 135 (S.R.135)</div>
                   <div class="color-description">鮮紅色（Vivid red）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF0000</div>
-                  <div class="rgb-value">RGB: (255, 0, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF0000</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 0, 0)</span></div>
                   <div class="additional-notes">說明: 這是一種鮮紅色的染料，純粹又直接，像消防車的那種紅。它耐熱性和溶解性都很好，常用在塑料或塗料中，能保持長久的鮮豔度。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -381,8 +262,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 149 (S.R.149)</div>
                   <div class="color-description">螢光紅（Fluorescent red）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF1493</div>
-                  <div class="rgb-value">RGB: (255, 20, 147)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF1493</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 20, 147)</span></div>
                   <div class="additional-notes">說明: 這是款螢光紅染料，顏色非常跳，像是粉紅與紅色的混合，超級吸睛。它多用在螢光標誌或裝飾性塑料上，亮度高但耐光性可能稍弱。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -392,8 +273,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 168 (S.R.168)</div>
                   <div class="color-description">橙紅色（Orange-red）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF4500</div>
-                  <div class="rgb-value">RGB: (255, 69, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF4500</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 69, 0)</span></div>
                   <div class="additional-notes">說明: 這是一種橙紅色的染料，介於紅和橙之間，帶點溫暖的感覺。它適用於蠟製品或油墨，色彩鮮明且穩定，適合多種應用。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -403,8 +284,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 179 (S.R.179)</div>
                   <div class="color-description">暗紅色（Dark red）</div>
-                  <div class="hex-code">HEX 碼: 約 #8B0000</div>
-                  <div class="rgb-value">RGB: (139, 0, 0)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #8B0000</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (139, 0, 0)</span></div>
                   <div class="additional-notes">說明: 這款染料是暗紅色的，像是紅酒的色澤，低調又深沉。它耐熱性極佳，常用在汽車塗料或高溫塑料染色，不容易褪色。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -414,8 +295,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 195 (S.R.195)</div>
                   <div class="color-description">紅色帶藍調（Red with blue undertone）</div>
-                  <div class="hex-code">HEX 碼: 約 #C71585</div>
-                  <div class="rgb-value">RGB: (199, 21, 133)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #C71585</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (199, 21, 133)</span></div>
                   <div class="additional-notes">說明: 這是一種紅色帶藍調的染料，感覺比純紅色更冷靜一點。它在高溫加工中表現穩定，特別適合染聚碳酸酯或工程塑料，常見於要求持久性的產品。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -425,8 +306,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Red 207 (S.R.207)</div>
                   <div class="color-description">亮紅色（Bright red）</div>
-                  <div class="hex-code">HEX 碼: 約 #FF4040</div>
-                  <div class="rgb-value">RGB: (255, 64, 64)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #FF4040</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (255, 64, 64)</span></div>
                   <div class="additional-notes">說明: 這款是亮紅色的代表，顏色鮮豔又熱情，像是熟透的櫻桃。它常用在透明塑料或油墨中，能讓產品看起來更有活力，耐光性也不錯。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -434,6 +315,7 @@
             </div>
           </div>
 
+          <!-- 紫色 (V) -->
           <div class="color-category" id="violet">
             <div class="category-title">紫色 (V)</div>
             <div class="product-list">
@@ -442,8 +324,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Violet 13 (S.V.13)</div>
                   <div class="color-description">藍紫色（Bluish purple）</div>
-                  <div class="hex-code">HEX 碼: 約 #4B0082</div>
-                  <div class="rgb-value">RGB: (75, 0, 130)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #4B0082</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (75, 0, 130)</span></div>
                   <div class="additional-notes">說明: 這款染料偏藍紫色，像是夜晚天空的那種深邃感。它廣泛用於染石油產品、蠟或塑料，顏色穩定且耐化學性強，適合工業用途。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -453,8 +335,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Violet 31 (S.V.31)</div>
                   <div class="color-description">明亮紫色（Bright purple）</div>
-                  <div class="hex-code">HEX 碼: 約 #8A2BE2</div>
-                  <div class="rgb-value">RGB: (138, 43, 226)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #8A2BE2</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (138, 43, 226)</span></div>
                   <div class="additional-notes">說明: 這是一個明亮的紫色染料，顏色鮮艷又活潑，常見於裝飾性塑料或化妝品包裝。它在溶劑中的分散性很好，能給出均勻的染色效果，但耐光性可能稍微弱一點。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -464,8 +346,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Violet 59 (S.V.59)</div>
                   <div class="color-description">深紫紅色（Deep reddish purple）</div>
-                  <div class="hex-code">HEX 碼: 約 #6B2D5C</div>
-                  <div class="rgb-value">RGB: (107, 45, 92)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #6B2D5C</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (107, 45, 92)</span></div>
                   <div class="additional-notes">說明: 這是一種深紫紅色的染料，帶有濃郁的紅色 undertone，比典型的純紫色更深沉。它通常用在高端塑料製品或油墨中，因為它的色彩飽和度高，耐熱性也挺強，很少會因為加工而變色。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -473,6 +355,7 @@
             </div>
           </div>
 
+          <!-- 藍色 (B) -->
           <div class="color-category" id="blue">
             <div class="category-title">藍色 (B)</div>
             <div class="product-list">
@@ -481,8 +364,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Blue 35 (S.B.35)</div>
                   <div class="color-description">深藍色（Dark blue）</div>
-                  <div class="hex-code">HEX 碼: 約 #00416A</div>
-                  <div class="rgb-value">RGB: (0, 65, 106)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #00416A</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (0, 65, 106)</span></div>
                   <div class="additional-notes">說明: 這是個深藍色染料，像深夜的海洋，沉穩又神秘。它耐熱性和溶解性都很出色，常用在石油產品或塑料染色中。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -492,8 +375,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Blue 78 (S.B.78)</div>
                   <div class="color-description">中藍色（Medium blue）</div>
-                  <div class="hex-code">HEX 碼: 約 #4682B4</div>
-                  <div class="rgb-value">RGB: (70, 130, 180)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #4682B4</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (70, 130, 180)</span></div>
                   <div class="additional-notes">說明: 這款是中藍色，像是牛仔布的感覺，穩重又有質感。它在工業染色中很常見，穩定性高，適合多種材質。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -503,8 +386,8 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Blue 97 (S.B.97)</div>
                   <div class="color-description">鮮藍色（Bright blue）</div>
-                  <div class="hex-code">HEX 碼: 約 #1E90FF</div>
-                  <div class="rgb-value">RGB: (30, 144, 255)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #1E90FF</span></div>
+                  <div class="code-tag"><span class="rgb-value">RGB: (30, 144, 255)</span></div>
                   <div class="additional-notes">說明: 這是一種鮮藍色染料，像晴天的天空，顏色乾淨又明快。它常用在塑料或油墨染色，耐熱性好，能保持鮮豔的藍調。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
@@ -514,35 +397,45 @@
                 <div class="product-info">
                   <div class="product-name">C.I. Solvent Blue 104 (S.B.104)</div>
                   <div class="color-description">藍色帶綠調（Blue with green tint）</div>
-                  <div class="hex-code">HEX 碼: 約 #2448B8</div>
-                  <div class="rgb-value">RGB: (0, 206, 209)</div>
+                  <div class="code-tag"><span class="hex-code">HEX 碼: 約 #2448B8</span></div>
+                  <!-- 已修正 RGB -->
+                  <div class="code-tag"><span class="rgb-value">RGB: (36, 72, 184)</span></div>
                   <div class="additional-notes">說明: 這款藍色帶點綠調，像海水的顏色，清新又有層次。它在塑料染色中表現穩定，常見於透明或半透明製品。</div>
                   <a href="contact.html" class="inquiry-button">詢價</a>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer style="padding: 20px; text-align: center; border-top: 1px solid #eee; color: #666; margin-top: 20px;">
     &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
   </footer>
-  <script src="script.js"></script>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const colorSelect = document.getElementById('color-select');
       const colorCategories = document.querySelectorAll('.color-category');
       const colorLinks = document.querySelectorAll('.color-filter ul li a');
 
+      // 桌面端點擊切換
       colorLinks.forEach(link => {
         link.addEventListener('click', function (event) {
-          event.preventDefault(); // Prevent the default link behavior
+          event.preventDefault();
           const selectedColor = this.getAttribute('data-color');
 
-          // Show the selected color category and hide the others
+          // 更新按鈕 active 狀態
+          colorLinks.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+          
+          // 同步下拉選單
+          if (colorSelect) colorSelect.value = selectedColor;
+
+          // 切換顯示內容
           colorCategories.forEach(category => {
             if (category.id === selectedColor) {
               category.classList.add('active');
@@ -553,26 +446,31 @@
         });
       });
 
-      colorSelect.addEventListener('change', function () {
-        const selectedColor = this.value;
-        colorCategories.forEach(category => {
-          if (category.id === selectedColor) {
-            category.classList.add('active');
-          } else {
-            category.classList.remove('active');
-          }
-        });
+      // 行動端下拉選單切換
+      if (colorSelect) {
+        colorSelect.addEventListener('change', function () {
+          const selectedColor = this.value;
+          
+          // 切換顯示內容
+          colorCategories.forEach(category => {
+            if (category.id === selectedColor) {
+              category.classList.add('active');
+            } else {
+              category.classList.remove('active');
+            }
+          });
 
-        // Update the active state of the links
-        colorLinks.forEach(link => {
-          const linkColor = link.getAttribute('data-color');
-          if (linkColor === selectedColor) {
-            link.classList.add('active');
-          } else {
-            link.classList.remove('active');
-          }
+          // 同步桌面端按鈕 active 狀態
+          colorLinks.forEach(link => {
+            const linkColor = link.getAttribute('data-color');
+            if (linkColor === selectedColor) {
+              link.classList.add('active');
+            } else {
+              link.classList.remove('active');
+            }
+          });
         });
-      });
+      }
     });
   </script>
 </body>
