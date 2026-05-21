@@ -352,11 +352,87 @@
         }
 
         // 處理表單送出 (現在改為真實 POST 送出)
-      
-  <footer>
-    &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
-  </footer>
-  <script src="script.js"></script>
-</body>
+        inquiryForm.addEventListener('submit', function(e) {
+            if (selectedProducts.size === 0) {
+                e.preventDefault(); // 阻止表單送出
+                showModal("Oops!", "Please select at least one dye to request a quote.", "error");
+                return;
+            }
 
+            // 將使用者選擇的染料彙整成字串
+            const selectedItemsText = products
+                .filter(p => selectedProducts.has(p.id))
+                .map(p => p.name)
+                .join(', ');
+
+            // 將選中的染料加入隱藏欄位
+            const selectedDyesInput = document.getElementById('selected-dyes-input');
+            selectedDyesInput.value = selectedItemsText;
+
+            // 將選擇的商品自動附加到客戶的留言框最前面，確保使用普通信箱收件時也能看見
+            const messageEl = document.getElementById('message');
+            const originalMsg = messageEl.value;
+            
+            // 避免重複附加 (如果使用者送出失敗後再次點擊)
+            if (!originalMsg.includes('--- Selected Products ---')) {
+                messageEl.value = `--- Selected Products ---\n${selectedItemsText}\n-------------------------\n\n${originalMsg}`;
+            }
+
+            // 不使用 e.preventDefault()，讓瀏覽器依據 action="https://hwashine.tw/contact" 執行原生表單送出跳轉
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Redirecting...`;
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            lucide.createIcons();
+        });
+
+        // 彈跳視窗邏輯
+        const modal = document.getElementById('custom-modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        function showModal(title, messageHtml, type) {
+            // 更新視窗內容與圖示
+            const iconDiv = modalContent.querySelector('div:first-child');
+            const titleEl = modalContent.querySelector('h3');
+            const msgEl = modalContent.querySelector('p');
+            
+            titleEl.textContent = title;
+            msgEl.innerHTML = messageHtml;
+
+            if (type === 'error') {
+                iconDiv.className = 'w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4';
+                iconDiv.innerHTML = '<i data-lucide="alert-triangle" class="w-8 h-8"></i>';
+            } else {
+                iconDiv.className = 'w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4';
+                iconDiv.innerHTML = '<i data-lucide="check-circle" class="w-8 h-8"></i>';
+            }
+            
+            lucide.createIcons();
+            
+            // 顯示視窗與動畫
+            modal.classList.remove('hidden');
+            // 使用 setTimeout 確保 display:block 生效後才加上 opacity 動畫
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.add('scale-95');
+            
+            // 等待過場動畫結束後隱藏元素
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // 啟動程式 - 修改為等待 DOM 載入完成後再啟動，避免找不到元素的問題
+        document.addEventListener('DOMContentLoaded', function() {
+            init();
+        });
+    </script>
+</body>
 </html>
+      
