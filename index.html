@@ -1,151 +1,358 @@
-<html lang="zh-TW">
 
-<head><link rel="icon" href="./favicon.ico" type="image/x-icon">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>溶劑染料供應商</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .product-item .color-box {
-      width: 80px;
-      height: 120px;
-      margin-right: 10px;
-      border: 1px solid #ccc;
-      display: inline-block;
-    }
-  </style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hwashine Trading Co., Ltd. - Solvent Dyes Showcase | Request for Quote</title>
+    <!-- 引入 Tailwind CSS 框架進行快速排版與樣式設計 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Lucide Icons 作為圖示 -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 自訂一些基本的動畫與捲軸樣式 */
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        /* 隱藏捲軸但保留捲動功能的樣式 (用於分類導覽) */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
-<body>
-  <nav>
-    <div class="menu-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+    <!-- 頂部導覽列 -->
+    <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <i data-lucide="droplet" class="text-blue-400"></i>
+                    <span class="text-xl font-bold tracking-tight hidden sm:inline">Hwashine Trading Co., Ltd.</span>
+                    <span class="text-xl font-bold tracking-tight sm:hidden">Hwashine</span>
+                </div>
+                <a href="https://hwashine.tw/" class="flex items-center gap-1 text-sm font-medium text-gray-300 hover:text-white transition-colors bg-white/10 px-3 py-1.5 rounded-full">
+                    <i data-lucide="home" class="w-4 h-4"></i> <span class="hidden sm:inline">Official Website</span><span class="sm:hidden">Home</span>
+                </a>
+            </div>
+            <div class="text-sm text-gray-300 hidden md:flex items-center gap-2">
+                <a href="mailto:info@hwashine.tw" class="hover:text-white flex items-center gap-1">
+                    <i data-lucide="mail" class="w-4 h-4"></i> info@hwashine.tw
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+        
+        <!-- 左側：產品展示區 (佔較大比例) -->
+        <div class="w-full lg:w-2/3 xl:w-3/4">
+            <div class="mb-6">
+                <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Solvent Dyes Catalog</h1>
+                <p class="text-gray-600">Select the dyes you are interested in and request a quote directly.</p>
+            </div>
+
+            <!-- 分類標籤 (Category Filters) -->
+            <div class="flex overflow-x-auto gap-2 mb-8 pb-2 no-scrollbar border-b border-gray-200" id="category-filters">
+                <!-- 由 JavaScript 動態生成分類按鈕 -->
+            </div>
+
+            <!-- 產品列表網格 (Product Grid) -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- 由 JavaScript 動態生成產品卡片 -->
+            </div>
+        </div>
+
+        <!-- 右側：詢價表單 (固定在視窗旁邊) -->
+        <div class="w-full lg:w-1/3 xl:w-1/4">
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-6 sticky top-24">
+                <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2 border-b pb-4 mb-4">
+                    <i data-lucide="clipboard-list" class="text-blue-600 w-5 h-5"></i>
+                    Inquiry List
+                </h2>
+                
+                <!-- 已選擇的產品列表 -->
+                <div id="selected-items-container" class="min-h-[100px] max-h-[250px] overflow-y-auto mb-6 pr-2">
+                    <p class="text-sm text-gray-400 italic text-center mt-8" id="empty-cart-msg">No dyes selected yet.<br>Check the boxes to add.</p>
+                    <ul id="selected-items-list" class="space-y-2 text-sm text-gray-700 font-medium">
+                        <!-- 動態插入已選項目 -->
+                    </ul>
+                </div>
+
+                <!-- 聯絡資訊表單 -->
+                <form id="inquiry-form" action="https://hwashine.tw/contact" method="POST" class="space-y-4">
+                    <input type="hidden" name="subject" value="Solvent Dyes Inquiry from Showcase">
+                    <input type="hidden" id="selected-dyes-input" name="selected_products" value="">
+                    
+                    <div>
+                        <label for="contactName" class="block text-sm font-semibold text-gray-700 mb-1">Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="contactName" name="name" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                            placeholder="Your Name">
+                    </div>
+                    <div>
+                        <label for="companyName" class="block text-sm font-semibold text-gray-700 mb-1">Company Name <span class="text-red-500">*</span></label>
+                        <input type="text" id="companyName" name="company" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                            placeholder="e.g. ABC Chemicals Ltd.">
+                    </div>
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                            placeholder="you@company.com">
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+                        <input type="tel" id="phone" name="phone"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+                            placeholder="Your contact number">
+                    </div>
+                    <div>
+                        <label for="message" class="block text-sm font-semibold text-gray-700 mb-1">Additional Notes</label>
+                        <textarea id="message" name="message" rows="2"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-none"
+                            placeholder="Quantity, specific requirements..."></textarea>
+                    </div>
+                    
+                    <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors flex justify-center items-center gap-2">
+                        <span>Submit Inquiry</span>
+                        <i data-lucide="send" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 頁尾 -->
+    <footer class="bg-gray-900 text-gray-400 py-8 text-center text-sm">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col items-center gap-2">
+            <p>&copy; 2026 Hwashine Trading Co., Ltd. All rights reserved.</p>
+            <p>Email: <a href="mailto:info@hwashine.tw" class="hover:text-white transition-colors">info@hwashine.tw</a></p>
+        </div>
+    </footer>
+
+    <!-- 自訂訊息彈跳視窗 (取代 alert) -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/50 z-[100] hidden flex items-center justify-center backdrop-blur-sm transition-opacity opacity-0">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 transform scale-95 transition-transform duration-300 p-8 text-center" id="modal-content">
+            <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="check-circle" class="w-8 h-8"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">Inquiry Sent!</h3>
+            <p class="text-gray-600 mb-6" id="modal-message">Thank you for your interest. We have received your inquiry and will contact you at your email shortly.</p>
+            <button onclick="closeModal()" class="bg-gray-900 hover:bg-gray-800 text-white font-semibold py-2 px-6 rounded-lg w-full transition-colors">
+                Close
+            </button>
+        </div>
     </div>
-    <ul class="nav-links">
-      <li><a href="index.html">首頁</a></li>
-      <li><a href="about.html">關於我們</a></li>
-      <li><a href="products.html">產品</a></li>
-      <li><a href="services.html">服務</a></li>
-      <li><a href="applications.html">應用案例</a></li>
-      <li><a href="contact.html">聯繫我們</a></li>
-      <li><a href="faq.html">常見問題</a></li>
-      <li><a href="blog.html">消息中心</a></li>
-    </ul>
-  </nav>
 
-  <header id="home">
-    <!-- Language Switcher -->
-    <div class="language-switcher">
-      <a href="index.html?lang=zh-TW">中文</a> |
-      <a href="index_en.html?lang=en">English</a>
-    </div>
-    <h1>專業溶劑染料供應商</h1>
-    <p>為您的產業提供高品質的染料解決方案。</p>
-    <a href="products.html"><button>探索產品</button></a>
-  </header>
+    <!-- 腳本邏輯 -->
+    <script>
+        // 初始化圖示
+        lucide.createIcons();
 
-  <main>
-    <section id="about">
-      <h2>關於我們</h2>
-      <p>我們是一家致力於提供高品質溶劑染料的貿易商。擁有豐富的行業經驗和專業的團隊，我們致力於為客戶提供卓越的產品和服務。</p>
-      <p>我們的核心價值包括品質保證、快速交付和客戶至上。我們與多家知名企業合作，確保產品的穩定性和可靠性。</p>
-      <a href="about.html" class="read-more-link">了解更多</a>
-    </section>
+        // 產品資料庫 (包含您提供的所有色號與屬性)
+        const products = [
+            // 黃色系 (Yellow)
+            { id: 'SY-33', name: 'Solvent Yellow 33', category: 'Yellow', colorCode: '#FBBF24', fluorescent: false },
+            { id: 'SY-98', name: 'Solvent Yellow 98', category: 'Yellow', colorCode: '#FDE047', fluorescent: true },
+            { id: 'SY-114', name: 'Solvent Yellow 114', category: 'Yellow', colorCode: '#F59E0B', fluorescent: false },
+            { id: 'SY-147', name: 'Solvent Yellow 147', category: 'Yellow', colorCode: '#FCD34D', fluorescent: false },
+            { id: 'SY-160-1', name: 'Solvent Yellow 160:1', category: 'Yellow', colorCode: '#FEF08A', fluorescent: true },
+            { id: 'SY-163', name: 'Solvent Yellow 163', category: 'Yellow', colorCode: '#D97706', fluorescent: false },
+            
+            // 橙色系 (Orange)
+            { id: 'SO-60', name: 'Solvent Orange 60', category: 'Orange', colorCode: '#F97316', fluorescent: false },
+            { id: 'SO-63', name: 'Solvent Orange 63', category: 'Orange', colorCode: '#FB923C', fluorescent: true },
+            { id: 'SO-107', name: 'Solvent Orange 107', category: 'Orange', colorCode: '#EA580C', fluorescent: false },
+            
+            // 紅色系 (Red)
+            { id: 'SR-52', name: 'Solvent Red 52', category: 'Red', colorCode: '#EF4444', fluorescent: false },
+            { id: 'SR-111', name: 'Solvent Red 111', category: 'Red', colorCode: '#DC2626', fluorescent: false },
+            { id: 'SR-135', name: 'Solvent Red 135', category: 'Red', colorCode: '#B91C1C', fluorescent: false },
+            { id: 'SR-146', name: 'Solvent Red 146', category: 'Red', colorCode: '#F87171', fluorescent: false },
+            { id: 'SR-149', name: 'Solvent Red 149', category: 'Red', colorCode: '#FDA4AF', fluorescent: true },
+            { id: 'SR-168', name: 'Solvent Red 168', category: 'Red', colorCode: '#991B1B', fluorescent: false },
+            { id: 'SR-179', name: 'Solvent Red 179', category: 'Red', colorCode: '#7F1D1D', fluorescent: false },
+            { id: 'SR-195', name: 'Solvent Red 195', category: 'Red', colorCode: '#FECDD3', fluorescent: false },
+            { id: 'SR-196', name: 'Solvent Red 196', category: 'Red', colorCode: '#FB7185', fluorescent: true },
+            { id: 'SR-197', name: 'Solvent Red 197', category: 'Red', colorCode: '#F43F5E', fluorescent: true },
+            { id: 'SR-207', name: 'Solvent Red 207', category: 'Red', colorCode: '#E11D48', fluorescent: false },
+            
+            // 紫色系 (Violet)
+            { id: 'SV-13', name: 'Solvent Violet 13', category: 'Violet', colorCode: '#8B5CF6', fluorescent: false },
+            { id: 'SV-31', name: 'Solvent Violet 31', category: 'Violet', colorCode: '#7C3AED', fluorescent: false },
+            { id: 'SV-37', name: 'Solvent Violet 37', category: 'Violet', colorCode: '#6D28D9', fluorescent: false },
+            { id: 'SV-59', name: 'Solvent Violet 59', category: 'Violet', colorCode: '#5B21B6', fluorescent: false },
+            
+            // 藍色系 (Blue)
+            { id: 'SB-35', name: 'Solvent Blue 35', category: 'Blue', colorCode: '#3B82F6', fluorescent: false },
+            { id: 'SB-36', name: 'Solvent Blue 36', category: 'Blue', colorCode: '#2563EB', fluorescent: false },
+            { id: 'SB-45', name: 'Solvent Blue 45', category: 'Blue', colorCode: '#1D4ED8', fluorescent: false },
+            { id: 'SB-63', name: 'Solvent Blue 63', category: 'Blue', colorCode: '#1E40AF', fluorescent: false },
+            { id: 'SB-67', name: 'Solvent Blue 67', category: 'Blue', colorCode: '#60A5FA', fluorescent: false },
+            { id: 'SB-78', name: 'Solvent Blue 78', category: 'Blue', colorCode: '#93C5FD', fluorescent: false },
+            { id: 'SB-97', name: 'Solvent Blue 97', category: 'Blue', colorCode: '#1E3A8A', fluorescent: false },
+            { id: 'SB-104', name: 'Solvent Blue 104', category: 'Blue', colorCode: '#172554', fluorescent: false },
+            
+            // 綠色系 (Green)
+            { id: 'SG-3', name: 'Solvent Green 3', category: 'Green', colorCode: '#10B981', fluorescent: false },
+            { id: 'SG-5', name: 'Solvent Green 5', category: 'Green', colorCode: '#34D399', fluorescent: true },
+            { id: 'SG-28', name: 'Solvent Green 28', category: 'Green', colorCode: '#059669', fluorescent: false }
+        ];
 
-    <section id="products">
-      <h2>產品</h2>
-      <div class="product-grid">
-        <div class="product-item">
-          <span class="color-box" style="background-color: #FFA500;"></span>
-          <div class="product-info">
-            <h3>C.I. Solvent Orange 60 (S.O.60)</h3>
-            <div class="additional-notes">顏色描述: 純橙色（Pure orange）</div>
-            <div class="hex-code">HEX 碼: #FFA500</div>
-            <div class="color-description">這是一種純橙色染料，像熟透的橘子，顏色簡單又經典。它在塑料和蠟染色中很常見，穩定性高，適合日常用品的著色。</div>
-          </div>
-          <a href="contact.html"><button>詢價</button></a>
-        </div>
+        const categories = ['All', 'Yellow', 'Orange', 'Red', 'Violet', 'Blue', 'Green'];
+        let activeCategory = 'All';
+        
+        // 儲存使用者選中的產品 ID
+        const selectedProducts = new Set();
 
-        <div class="product-item">
-          <span class="color-box" style="background-color: #FF0000;"></span>
-          <div class="product-info">
-            <h3>C.I. Solvent Red 135 (S.R.135)</h3>
-            <div class="additional-notes">顏色描述: 鮮紅色（Vivid red）</div>
-            <div class="hex-code">HEX 碼: #FF0000</div>
-            <div class="color-description">這是一種鮮紅色的染料，純粹又直接，像消防車的那種紅。它耐熱性和溶解性都很好，常用在塑料或塗料中，能保持長久的鮮豔度。</div>
-          </div>
-          <a href="contact.html"><button>詢價</button></a>
-        </div>
+        // DOM 元素參考
+        const productGrid = document.getElementById('product-grid');
+        const categoryFilters = document.getElementById('category-filters');
+        const selectedItemsList = document.getElementById('selected-items-list');
+        const emptyCartMsg = document.getElementById('empty-cart-msg');
+        const inquiryForm = document.getElementById('inquiry-form');
 
-        <div class="product-item">
-          <span class="color-box" style="background-color: #00CED1;"></span>
-          <div class="product-info">
-            <h3>C.I. Solvent Blue 104 (S.B.104)</h3>
-            <div class="additional-notes">顏色描述: 藍色帶綠調（Blue with green tint）</div>
-            <div class="hex-code">HEX 碼: #00CED1</div>
-            <div class="color-description">這款藍色帶點綠調，像海水的顏色，清新又有層次。它在塑料染色中表現穩定，常見於透明或半透明製品。</div>
-          </div>
-          <a href="contact.html"><button>詢價</button></a>
-        </div>
-      </div>
-      <a href="products.html" class="read-more-link">查看更多產品</a>
-    </section>
+        // 初始化頁面
+        function init() {
+            renderCategories();
+            renderProducts();
+        }
 
-    <section id="services">
-      <h2>服務</h2>
-      <p>我們提供全面的染料解決方案，包括客製化染料配方、技術支持和物流配送服務。我們的專業團隊隨時為您提供諮詢和支持。</p>
-      <ul>
-        <li>客製化染料解決方案</li>
-        <li>技術支持與諮詢</li>
-        <li>物流與配送服務</li>
-        <li>售後服務政策</li>
-      </ul>
-      <a href="services.html" class="read-more-link">更多服務詳情</a>
-    </section>
+        // 渲染分類按鈕
+        function renderCategories() {
+            categoryFilters.innerHTML = '';
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = `px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-colors ${
+                    activeCategory === cat 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-white border border-gray-300 text-gray-600 hover:bg-gray-100'
+                }`;
+                btn.textContent = cat;
+                btn.onclick = () => {
+                    activeCategory = cat;
+                    renderCategories(); // 更新按鈕樣式
+                    renderProducts();   // 更新產品列表
+                };
+                categoryFilters.appendChild(btn);
+            });
+        }
 
-    <section id="applications">
-      <h2>應用案例</h2>
-      <p>溶劑染料是一類溶於有機溶劑的染料，以蒽醌類、偶氮類和苯並咪唑酮類為主，因其良好的溶解性、鮮豔色彩和高透明度，廣泛應用於熱塑性塑膠的著色。以下為其在聚苯乙烯（PS）、ABS、聚碳酸酯（PC）和聚甲基丙烯酸甲酯（PMMA）中的應用案例，包括終端產品、應用原因、困難與解決方法。</p>
-      <a href="applications.html" class="read-more-link">探索更多應用</a>
-    </section>
+        // 渲染產品網格
+        function renderProducts() {
+            productGrid.innerHTML = '';
+            const filteredProducts = activeCategory === 'All' 
+                ? products 
+                : products.filter(p => p.category === activeCategory);
 
-    <section id="contact">
-      <h2>聯繫我們</h2>
-      <p>如有任何疑問或需求，請隨時與我們聯繫。我們期待與您合作，共同創造更多價值。</p>
-      <form id="contact-form" action="https://formspree.io/f/xblrnwnz" method="POST">
-        <label for="name">姓名：</label>
-        <input type="text" id="name" name="name" required>
+            filteredProducts.forEach(product => {
+                const isSelected = selectedProducts.has(product.id);
+                
+                const card = document.createElement('div');
+                // 卡片外觀：包含顏色裝飾條、名稱與核取方塊
+                card.className = `bg-white rounded-xl p-5 border-2 transition-all cursor-pointer relative overflow-hidden flex flex-col justify-between h-full group ${
+                    isSelected ? 'border-blue-500 bg-blue-50/30' : 'border-gray-100 hover:border-gray-300 shadow-sm hover:shadow-md'
+                }`;
+                card.onclick = () => toggleProductSelection(product.id);
 
-        <label for="company">公司：</label>
-        <input type="text" id="company" name="company">
+                // 顏色裝飾條
+                const colorBar = `<div class="absolute top-0 left-0 w-2 h-full" style="background-color: ${product.colorCode}"></div>`;
+                
+                // 標籤 (螢光)
+                const badge = product.fluorescent 
+                    ? `<span class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-md ml-auto"><i data-lucide="zap" class="w-3 h-3"></i> Fluorescent</span>` 
+                    : '';
 
-        <label for="email">電子郵件：</label>
-        <input type="email" id="email" name="email" required>
+                // 核取方塊圖示 (模擬)
+                const checkbox = `
+                    <div class="w-5 h-5 rounded border flex items-center justify-center transition-colors ${
+                        isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 group-hover:border-blue-400'
+                    }">
+                        ${isSelected ? '<i data-lucide="check" class="w-3 h-3 text-white"></i>' : ''}
+                    </div>
+                `;
 
-        <label for="message">需求描述：</label>
-        <textarea id="message" name="message" rows="4" required></textarea>
+                card.innerHTML = `
+                    ${colorBar}
+                    <div class="pl-3 flex flex-col h-full">
+                        <div class="flex justify-between items-start mb-3">
+                            <div class="text-xs font-semibold text-gray-500 uppercase tracking-wider">${product.category}</div>
+                            ${badge}
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-4 pr-6">${product.name}</h3>
+                        
+                        <div class="mt-auto flex items-center justify-between border-t border-gray-100 pt-3">
+                            <span class="text-sm font-medium ${isSelected ? 'text-blue-600' : 'text-gray-500'}">
+                                ${isSelected ? 'Added to Inquiry' : 'Select for Quote'}
+                            </span>
+                            ${checkbox}
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+            
+            lucide.createIcons(); // 重新渲染新加入的圖示
+        }
 
-        <button type="submit">提交</button>
-      </form>
-      <a href="contact.html" class="read-more-link">聯絡方式</a>
-    </section>
+        // 切換產品選取狀態
+        function toggleProductSelection(productId) {
+            if (selectedProducts.has(productId)) {
+                selectedProducts.delete(productId);
+            } else {
+                selectedProducts.add(productId);
+            }
+            renderProducts(); // 更新主列表外觀
+            updateInquiryList(); // 更新右側詢價單
+        }
 
-    <section id="faq">
-      <h2>常見問題</h2>
-      <ul>
-        <li><strong>Q1：為什麼染色後的塑膠製品會出現染料遷移到表面的狀況？</strong></li>
-        <a href="faq.html" class="read-more-link">查看更多問題</a>
-    </section>
+        // 從詢價單中移除
+        function removeProduct(productId, event) {
+            event.stopPropagation(); // 防止觸發其他點擊事件
+            selectedProducts.delete(productId);
+            renderProducts();
+            updateInquiryList();
+        }
 
-    <section id="blog">
-      <h2>消息中心</h2>
-      <p>敬請期待！我們將在此分享溶劑染料的最新趨勢、產品使用技巧和公司活動訊息。</p>
-      <a href="blog.html" class="read-more-link">閱讀更多</a>
-    </section>
-  </main>
+        // 更新右側的詢價列表
+        function updateInquiryList() {
+            selectedItemsList.innerHTML = '';
+            
+            if (selectedProducts.size === 0) {
+                emptyCartMsg.style.display = 'block';
+                return;
+            }
+            
+            emptyCartMsg.style.display = 'none';
+            
+            // 根據選中的 ID 找出完整的產品物件
+            const selectedItems = products.filter(p => selectedProducts.has(p.id));
+            
+            selectedItems.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'flex justify-between items-center bg-gray-50 px-3 py-2 rounded-lg border border-gray-100';
+                li.innerHTML = `
+                    <span class="flex items-center gap-2 truncate">
+                        <span class="w-3 h-3 rounded-full shadow-sm" style="background-color: ${item.colorCode}"></span>
+                        <span class="truncate" title="${item.name}">${item.name}</span>
+                    </span>
+                    <button type="button" onclick="removeProduct('${item.id}', event)" class="text-gray-400 hover:text-red-500 transition-colors p-1" title="Remove">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                `;
+                selectedItemsList.appendChild(li);
+            });
+            lucide.createIcons();
+        }
 
+        // 處理表單送出 (現在改為真實 POST 送出)
+      
   <footer>
     &copy; 2024 Hwashine Trading Co., Ltd. All rights reserved.
   </footer>
